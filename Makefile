@@ -2,9 +2,9 @@ CC      = arm-none-eabi-gcc
 OBJCOPY = arm-none-eabi-objcopy
 OBJDUMP = arm-none-eabi-objdump
 SIZE    = arm-none-eabi-size
-OPENOCD = openocd
+OPENOCD = openocd-local
 
-CPUFLAGS = -mcpu=cortex-m3 -mthumb
+CPUFLAGS = -mcpu=cortex-m4 -mthumb
 
 CFLAGS = $(CPUFLAGS) \
          -Wall -Wextra \
@@ -14,19 +14,21 @@ CFLAGS = $(CPUFLAGS) \
          -ffunction-sections \
          -fdata-sections \
          -MMD -MP \
-         -Iinclude
+         -Idrivers
 
 LDFLAGS = $(CPUFLAGS) \
-          -T linker/stm32f103c8.ld \
+          -T linker/nrf52830.ld \
           -nostdlib \
           -Wl,--gc-sections \
           -Wl,-Map=build/firmware.map
 
-OPENOCD_FLAGS = -f interface/stlink.cfg \
-                -f target/stm32f1x.cfg
+OPENOCD_FLAGS = -f interface/jlink.cfg \
+                -f target/nordic/nrf52.cfg
 
 SOURCES = $(wildcard startup/*.c) \
-          $(wildcard src/*.c)
+          $(wildcard src/*.c) \
+          $(wildcard drivers/*.c) \
+          $(wildcard drivers/*/*.c)
 
 OBJECTS = $(patsubst %.c,build/%.o,$(SOURCES))
 DEPS    = $(OBJECTS:.o=.d)
