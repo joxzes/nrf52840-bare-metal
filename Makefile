@@ -14,13 +14,15 @@ CFLAGS = $(CPUFLAGS) \
          -ffunction-sections \
          -fdata-sections \
          -MMD -MP \
-         -Idrivers
+         -Iinclude \
+         $(addprefix -I,$(wildcard drivers/*/))
 
 LDFLAGS = $(CPUFLAGS) \
-          -T linker/nrf52830.ld \
+          -T linker/nrf52840.ld \
           -nostdlib \
           -Wl,--gc-sections \
-          -Wl,-Map=build/firmware.map
+          -Wl,-Map=build/firmware.map \
+          -Wl,--print-memory-usage
 
 OPENOCD_FLAGS = -f interface/jlink.cfg \
                 -f target/nordic/nrf52.cfg
@@ -28,7 +30,8 @@ OPENOCD_FLAGS = -f interface/jlink.cfg \
 SOURCES = $(wildcard startup/*.c) \
           $(wildcard src/*.c) \
           $(wildcard drivers/*.c) \
-          $(wildcard drivers/*/*.c)
+          $(wildcard drivers/*/*.c) \
+          $(wildcard include/*/*.c)
 
 OBJECTS = $(patsubst %.c,build/%.o,$(SOURCES))
 DEPS    = $(OBJECTS:.o=.d)
