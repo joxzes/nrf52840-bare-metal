@@ -1,29 +1,31 @@
 #include "systick.h"
 
-static volatile uint32_t ticks = 0u;
+static volatile uint32_t ticks;
 
-void SYST_init(void) {
-    SYST->SYST_CSR &= ~1u;
+void systick_init(void)
+{
+	SYSTICK->syst_csr &= ~1U;
 
-    SYST->SYST_RVR = 63999u;
-    SYST->SYST_CVR = 0u;
+	SYSTICK->syst_rvr = 63999U;
+	SYSTICK->syst_cvr = 0U;
 
-    SYST->SYST_CSR = (1u << 2) | (1u << 1) | 1u;
-    
+	SYSTICK->syst_csr = (1U << 2) | (1U << 1) | 1U;
 }
 
-void SysTick_Handler(void) {
-    ticks++;
+void SysTick_Handler(void)
+{
+	ticks++;
 }
 
-uint32_t millis(void) {
-    return ticks;
+uint32_t millis(void)
+{
+	return ticks;
 }
 
-void delay(uint32_t ms) {
-    uint32_t start = ticks;
+void delay(uint32_t ms)
+{
+	uint32_t start = ticks;
 
-    while ((ticks - start) < ms) {
-        
-    }
+	while (ticks - start < ms)
+		;
 }
