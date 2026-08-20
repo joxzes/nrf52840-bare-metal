@@ -3,123 +3,108 @@
 
 #include <stdint.h>
 
-typedef struct {
-    volatile uint32_t SYST_CSR;
-    volatile uint32_t SYST_RVR;
-    volatile uint32_t SYST_CVR;
-    volatile uint32_t SYST_CALIB;
-} SYST_TypeDef;
+struct systick {
+	volatile uint32_t syst_csr;
+	volatile uint32_t syst_rvr;
+	volatile uint32_t syst_cvr;
+	volatile uint32_t syst_calib;
+};
 
-typedef struct
-{
-    volatile uint32_t TASKS_HFCLKSTART;      // 0x000
-    volatile uint32_t TASKS_HFCLKSTOP;       // 0x004
-    volatile uint32_t TASKS_LFCLKSTART;      // 0x008
-    volatile uint32_t TASKS_LFCLKSTOP;       // 0x00C
-    volatile uint32_t TASKS_CAL;             // 0x010
-    volatile uint32_t TASKS_CTSTART;         // 0x014
-    volatile uint32_t TASKS_CTSTOP;          // 0x018
+struct clock {
+	volatile uint32_t tasks_hfclkstart;	/* 0x000 */
+	volatile uint32_t tasks_hfclkstop;	/* 0x004 */
+	volatile uint32_t tasks_lfclkstart;	/* 0x008 */
+	volatile uint32_t tasks_lfclkstop;	/* 0x00c */
+	volatile uint32_t tasks_cal;		/* 0x010 */
+	volatile uint32_t tasks_ctstart;		/* 0x014 */
+	volatile uint32_t tasks_ctstop;		/* 0x018 */
 
-    uint32_t RESERVED0[57];                  // 0x01C - 0x0FC
+	uint32_t reserved0[57];			/* 0x01c - 0x0fc */
 
-    volatile uint32_t EVENTS_HFCLKSTARTED;   // 0x100
-    volatile uint32_t EVENTS_LFCLKSTARTED;   // 0x104
+	volatile uint32_t events_hfclkstarted;	/* 0x100 */
+	volatile uint32_t events_lfclkstarted;	/* 0x104 */
 
-    uint32_t RESERVED1[1];                   // 0x108
+	uint32_t reserved1[1];			/* 0x108 */
 
-    volatile uint32_t EVENTS_DONE;           // 0x10C
-    volatile uint32_t EVENTS_CTTO;           // 0x110
+	volatile uint32_t events_done;		/* 0x10c */
+	volatile uint32_t events_ctto;		/* 0x110 */
 
-    uint32_t RESERVED2[5];                   // 0x114 - 0x124
+	uint32_t reserved2[5];			/* 0x114 - 0x124 */
 
-    volatile uint32_t EVENTS_CTSTARTED;      // 0x128
-    volatile uint32_t EVENTS_CTSTOPPED;      // 0x12C
+	volatile uint32_t events_ctstarted;	/* 0x128 */
+	volatile uint32_t events_ctstopped;	/* 0x12c */
 
-    uint32_t RESERVED3[117];                 // 0x130 - 0x300
+	uint32_t reserved3[117];			/* 0x130 - 0x300 */
 
-    volatile uint32_t INTENSET;              // 0x304
-    volatile uint32_t INTENCLR;              // 0x308
+	volatile uint32_t intenset;		/* 0x304 */
+	volatile uint32_t intenclr;		/* 0x308 */
 
-    uint32_t RESERVED4[63];                  // 0x30C - 0x404
+	uint32_t reserved4[63];			/* 0x30c - 0x404 */
 
-    volatile uint32_t HFCLKRUN;               // 0x408
-    volatile uint32_t HFCLKSTAT;              // 0x40C
+	volatile uint32_t hfclkrun;		/* 0x408 */
+	volatile uint32_t hfclkstat;		/* 0x40c */
 
-    uint32_t RESERVED5[1];                   // 0x410
+	uint32_t reserved5[1];			/* 0x410 */
 
-    volatile uint32_t LFCLKRUN;               // 0x414
-    volatile uint32_t LFCLKSTAT;              // 0x418
-    volatile uint32_t LFCLKSRCCOPY;           // 0x41C
+	volatile uint32_t lfclkrun;		/* 0x414 */
+	volatile uint32_t lfclkstat;		/* 0x418 */
+	volatile uint32_t lfclksrccopy;		/* 0x41c */
 
-    uint32_t RESERVED6[62];                  // 0x420 - 0x514
+	uint32_t reserved6[62];			/* 0x420 - 0x514 */
 
-    volatile uint32_t LFCLKSRC;               // 0x518
+	volatile uint32_t lfclksrc;		/* 0x518 */
 
-    uint32_t RESERVED7[3];                   // 0x51C - 0x524
+	uint32_t reserved7[3];			/* 0x51c - 0x524 */
 
-    volatile uint32_t HFXODEBOUNCE;           // 0x528
+	volatile uint32_t hfxodebounce;		/* 0x528 */
 
-    uint32_t RESERVED8[3];                   // 0x52C - 0x534
+	uint32_t reserved8[3];			/* 0x52c - 0x534 */
 
-    volatile uint32_t CTIV;                   // 0x538
+	volatile uint32_t ctiv;			/* 0x538 */
 
-    uint32_t RESERVED9[8];                   // 0x53C - 0x558
+	uint32_t reserved9[8];			/* 0x53c - 0x558 */
 
-    volatile uint32_t TRACECONFIG;            // 0x55C
+	volatile uint32_t traceconfig;		/* 0x55c */
 
-    uint32_t RESERVED10[21];                 // 0x560 - 0x5B0
+	uint32_t reserved10[21];			/* 0x560 - 0x5b0 */
 
-    volatile uint32_t LFRCMODE;               // 0x5B4
+	volatile uint32_t lfrcmode;		/* 0x5b4 */
+};
 
-} CLOCK_TypeDef;
+struct gpio {
+	uint32_t reserved0[321];		/* 0x000 - 0x500 */
 
-typedef struct
-{
-    uint32_t RESERVED0[321];          // 0x000 - 0x500
+	volatile uint32_t out;		/* 0x504 */
+	volatile uint32_t outset;	/* 0x508 */
+	volatile uint32_t outclr;	/* 0x50c */
+	volatile uint32_t in;		/* 0x510 */
+	volatile uint32_t dir;		/* 0x514 */
+	volatile uint32_t dirset;	/* 0x518 */
+	volatile uint32_t dirclr;	/* 0x51c */
+	volatile uint32_t latch;		/* 0x520 */
+	volatile uint32_t detectmode;	/* 0x524 */
 
-    volatile uint32_t OUT;            // 0x504
-    volatile uint32_t OUTSET;         // 0x508
-    volatile uint32_t OUTCLR;         // 0x50C
-    volatile uint32_t IN;             // 0x510
-    volatile uint32_t DIR;            // 0x514
-    volatile uint32_t DIRSET;         // 0x518
-    volatile uint32_t DIRCLR;         // 0x51C
-    volatile uint32_t LATCH;          // 0x520
-    volatile uint32_t DETECTMODE;     // 0x524
+	uint32_t reserved1[118];		/* 0x528 - 0x6fc */
 
-    uint32_t RESERVED1[118];          // 0x528 - 0x6FC
+	volatile uint32_t pin_cnf[32];	/* 0x700 - 0x77c */
+};
 
-    volatile uint32_t PIN_CNF[32];    // 0x700 - 0x77C
+#define SYSTICK	((struct systick *)0xE000E010U)
+#define CLOCK	((struct clock *)0x40000000U)
 
-} GPIO_TypeDef;
+#define P0	((struct gpio *)0x50000000U)
+#define P1	((struct gpio *)0x50000300U)
 
-typedef enum {
-    LED1 = 13,
-    LED2,
-    LED3,
-    LED4
-} led_t;
+#define CLEAR(x, y)	((x) &= ~(1U << (y)))
 
-typedef enum {
-    BTN1 = 11,
-    BTN2,
-    BTN3 = 24,
-    BTN4
-} button_t;
+#define GPIO_PIN_CNF_DIR_OUTPUT	1U
+#define GPIO_PIN_CNF_DIR_INPUT	0U
 
-#define SYST ((SYST_TypeDef *)0xE000E010u)
-#define CLOCK ((CLOCK_TypeDef *)0x40000000u)
-#define P0 ((GPIO_TypeDef *)0x50000000u)
-#define P1 ((GPIO_TypeDef *)0x50000300u)
+#define GPIO_PIN_CNF_INPUT_CONNECT	0U
+#define GPIO_PIN_CNF_INPUT_DISCONNECT	(1U << 1)
 
-#define CLEAR(X, Y) ((X) &= ~(1U << (Y)))
-
-#define GPIO_PIN_CNF_DIR_Output 1u
-#define GPIO_PIN_CNF_DIR_Input 0u
-#define GPIO_PIN_CNF_INPUT_Connect 0u
-#define GPIO_PIN_CNF_INPUT_Disconnect (1u << 1)
-#define GPIO_PIN_CNF_PULL_Disable 0u
-#define GPIO_PIN_CNF_PULL_Pulldown (1u << 2)
-#define GPIO_PIN_CNF_PULL_Pullup (3u << 2)
+#define GPIO_PIN_CNF_PULL_DISABLE	0U
+#define GPIO_PIN_CNF_PULL_PULLDOWN	(1U << 2)
+#define GPIO_PIN_CNF_PULL_PULLUP	(3U << 2)
 
 #endif
