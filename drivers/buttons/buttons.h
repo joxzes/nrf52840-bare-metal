@@ -3,7 +3,16 @@
 
 #include "nrf52840.h"
 
-void BTNS_init(void);
-uint8_t BTNS_read(button_t btn);
+enum buttons {
+	BTN1,
+	BTN2,
+	BTN3,
+	BTN4,
+	BTN_COUNT,
+};
+
+void btns_init(void);
+uint8_t btns_read(enum buttons btn);
+void btns_process(void);
 
 #endif
