@@ -1,8 +1,12 @@
+#include "app.h"
 
 int main(void)
 {
-    for(;;)
-    {
-        
-    }
+	systick_init();
+	leds_init();
+	btns_init();
+
+	for (;;) {
+		blink_speed_control();
+	}
 }
